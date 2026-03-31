@@ -1,21 +1,32 @@
 package com.example.flagquiz.controller
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.flagquiz.R
 
 class ResultActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_result)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        val name = intent.getStringExtra("name") ?: ""
+        val score = intent.getIntExtra("score", 0)
+
+        val nameText = findViewById<TextView>(R.id.userNameText)
+        val scoreText = findViewById<TextView>(R.id.scoreText)
+        val button = findViewById<Button>(R.id.startQuizButton)
+
+        nameText.text = "Nome: $name"
+        scoreText.text = "Pontuação: $score"
+
+        button.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }
